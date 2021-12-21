@@ -7,10 +7,10 @@ import { useEffect } from "react";
 export default function Home() {
     const [articles, setArticles] = useState([]);
     const url = "https://api.realworld.io/api/articles";
-//?tag=programming&author=lara&favorited=lara&limit=20&offset=0
+    //?tag=programming&author=lara&favorited=lara&limit=20&offset=0
     useEffect(() => {
         axios.get(url).then((response) => {
-            setArticles(response.data);
+            setArticles(response.data.articles);
         });
     }, []);
 
@@ -18,6 +18,7 @@ export default function Home() {
         return null;
     }
 
+    console.log(articles)
     return (
         <div className="home-page">
             <div className="banner">
@@ -38,39 +39,19 @@ export default function Home() {
                                 </li>
                             </ul>
                         </div>
-                        {articles.length}
-
-
-
-
-
-                        <div key={articles.id} className="article-preview">
-                            <div className="article-meta">
-                                <a href="profile.html">
-                                    <img src="http://i.imgur.com/Qr71crq.jpg" />
-                                </a>
-                                <div className="info">
-                                    <a href="" className="author">
-                                        {articles.author}
-                                    </a>
-                                </div>
-                            </div>
-                            <a href="" className="preview-link">
-                            </a>
-                            <div className="col-md-3">
-                                <div className="sidebar">
-                                    <p>Popular Tags</p>
-                                    <div className="tag-list">
-                                        {articles.tag}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-
-
+                        {articles.map((article) => (
+                            <Article
+                                favorited={article.favorited}
+                                id={article.id}
+                                key={article.id}
+                                author={article.author}
+                                body={article.body}
+                                description={article.description}
+                                tagList={article.tagList}
+                                updatedAt={article.updatedAt}
+                                title={article.title}
+                            ></Article>
+                        ))}
                     </div>
                 </div>
             </div>
